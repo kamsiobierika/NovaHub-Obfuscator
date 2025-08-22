@@ -1,0 +1,686 @@
+use this html template i created "<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nyx Luau Obfuscator | Professional Code Protection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --dark: #0f172a;
+            --darker: #0a0e1a;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --card-bg: rgba(15, 23, 42, 0.8);
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--light);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.1) 0%, transparent 25%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            animation: fadeInDown 1s ease;
+        }
+
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-right: 15px;
+            filter: drop-shadow(0 0 15px rgba(99, 102, 241, 0.5));
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeInUp 0.8s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .card-title i {
+            margin-right: 12px;
+            color: var(--primary);
+        }
+
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .input-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .input-method {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .method-title {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .file-upload {
+            border: 2px dashed rgba(148, 163, 184, 0.5);
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(15, 23, 42, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 180px;
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .file-upload i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .file-upload:hover i {
+            transform: scale(1.1);
+        }
+
+        .file-upload p {
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+
+        .file-upload .small {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .code-input {
+            width: 100%;
+            min-height: 200px;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            color: var(--light);
+            font-family: 'JetBrains Mono', monospace;
+            resize: vertical;
+            transition: all 0.3s ease;
+            line-height: 1.7;
+        }
+
+        .code-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+
+        .preset-selector {
+            margin-top: 25px;
+        }
+
+        .preset-title {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .preset-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .preset-option {
+            position: relative;
+        }
+
+        .preset-option input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .preset-option label {
+            display: flex;
+            flex-direction: column;
+            padding: 25px 20px;
+            background: linear-gradient(145deg, rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.9));
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            min-height: 120px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .preset-option input:checked + label {
+            border-color: var(--primary);
+            background: linear-gradient(145deg, rgba(99, 102, 241, 0.15), rgba(79, 70, 229, 0.25));
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.2);
+        }
+
+        .preset-option label:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .preset-name {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .preset-desc {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .obfuscate-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .obfuscate-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .obfuscate-btn:hover::before {
+            left: 100%;
+        }
+
+        .obfuscate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+        }
+
+        .obfuscate-btn:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .obfuscate-btn:disabled::before {
+            display: none;
+        }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .result-title {
+            font-size: 1.5rem;
+            color: var(--light);
+            font-weight: 600;
+        }
+
+        .download-btn {
+            padding: 12px 25px;
+            background: linear-gradient(to right, var(--secondary), #0d966c);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .code-output {
+            width: 100%;
+            min-height: 300px;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 12px;
+            padding: 25px;
+            color: var(--light);
+            font-family: 'JetBrains Mono', monospace;
+            overflow: auto;
+            white-space: pre-wrap;
+            line-height: 1.7;
+            max-height: 500px;
+        }
+
+        .watermark {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary);
+            animation: spin 1.2s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            font-size: 1.1rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .error-message {
+            color: var(--error);
+            padding: 15px 20px;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+            border-left: 4px solid var(--error);
+            animation: shake 0.5s ease;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: var(--gray);
+            font-size: 0.95rem;
+            padding: 20px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .input-methods {
+                grid-template-columns: 1fr;
+            }
+            
+            .preset-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .result-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .download-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Code highlighting for output */
+        .code-output .comment {
+            color: #6a9955;
+        }
+
+        .code-output .keyword {
+            color: #c586c0;
+        }
+
+        .code-output .string {
+            color: #ce9178;
+        }
+
+        .code-output .number {
+            color: #b5cea8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="logo-icon fas fa-lock"></i>
+                <h1>Nyx Luau Obfuscator</h1>
+            </div>
+            <p class="subtitle">Professional-grade code protection for your Luau scripts with multiple security levels</p>
+        </header>
+        
+        <div class="card input-section">
+            <h2 class="card-title"><i class="fas fa-code"></i> Input Source</h2>
+            
+            <div class="input-methods">
+                <div class="input-method">
+                    <h3 class="method-title">Upload File</h3>
+                    <div class="file-upload" id="fileUploadArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload .lua or .txt file</p>
+                        <p class="small">(or drag and drop your file here)</p>
+                        <input type="file" id="fileInput" accept=".lua,.txt">
+                    </div>
+                    <div id="fileName" style="margin-top: 15px; color: var(--gray); display: none;"></div>
+                </div>
+                
+                <div class="input-method">
+                    <h3 class="method-title">Paste Code Directly</h3>
+                    <textarea class="code-input" id="codeInput" placeholder="-- Paste your Luau code here...&#10;-- Example:&#10;print('Hello, World!')"></textarea>
+                </div>
+            </div>
+            
+            <div class="preset-selector">
+                <h3 class="preset-title">Obfuscation Intensity</h3>
+                <div class="preset-options">
+                    <div class="preset-option">
+                        <input type="radio" name="preset" id="weakPreset" value="Weak" checked>
+                        <label for="weakPreset">
+                            <span class="preset-name">Standard Protection</span>
+                            <span class="preset-desc">Light obfuscation for basic security</span>
+                        </label>
+                    </div>
+                    <div class="preset-option">
+                        <input type="radio" name="preset" id="mediumPreset" value="Medium">
+                        <label for="mediumPreset">
+                            <span class="preset-name">Enhanced Protection</span>
+                            <span class="preset-desc">Balanced security and performance</span>
+                        </label>
+                    </div>
+                    <div class="preset-option">
+                        <input type="radio" name="preset" id="strongPreset" value="Strong">
+                        <label for="strongPreset">
+                            <span class="preset-name">Maximum Protection</span>
+                            <span class="preset-desc">Heavy obfuscation for critical code</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="obfuscate-btn" id="obfuscateBtn">
+                <i class="fas fa-shield-alt"></i> Obfuscate Code
+            </button>
+            
+            <div class="error-message" id="errorMessage"></div>
+        </div>
+        
+        <div class="loading" id="loadingSection">
+            <div class="spinner"></div>
+            <p class="loading-text">Processing and securing your code...</p>
+        </div>
+        
+        <div class="card result-section" id="resultSection">
+            <div class="result-header">
+                <h2 class="result-title"><i class="fas fa-check-circle"></i> Obfuscation Complete</h2>
+                <button class="download-btn" id="downloadBtn">
+                    <i class="fas fa-download"></i> Download Secure Code
+                </button>
+            </div>
+            <div class="code-output" id="codeOutput"></div>
+        </div>
+        
+        <footer>
+            <p>© 2023 Nyx Obfuscator | Engineered with precision by Slayerson | Acknowledgment to Vyxonq</p>
+        </footer>
+    </div>
+<script>
+    const obfuscateBtn = document.getElementById("obfuscateBtn");
+    const codeInput = document.getElementById("codeInput");
+    const fileInput = document.getElementById("fileInput");
+    const resultSection = document.getElementById("resultSection");
+    const codeOutput = document.getElementById("codeOutput");
+    const errorMessage = document.getElementById("errorMessage");
+    const loadingSection = document.getElementById("loadingSection");
+    const downloadBtn = document.getElementById("downloadBtn");
+    const fileNameDisplay = document.getElementById("fileName");
+
+    let uploadedFile = null;
+    let obfuscatedCode = "";
+
+    fileInput.addEventListener("change", (e) => {
+        uploadedFile = e.target.files[0];
+        if (uploadedFile) {
+            fileNameDisplay.innerText = `Selected: ${uploadedFile.name}`;
+            fileNameDisplay.style.display = "block";
+        }
+    });
+
+    obfuscateBtn.addEventListener("click", async () => {
+        errorMessage.style.display = "none";
+        resultSection.style.display = "none";
+        loadingSection.style.display = "flex";
+
+        const preset = document.querySelector('input[name="preset"]:checked').value;
+        const formData = new FormData();
+
+        if (uploadedFile) {
+            formData.append("file", uploadedFile);
+        } else if (codeInput.value.trim() !== "") {
+            formData.append("code", codeInput.value.trim());
+        } else {
+            loadingSection.style.display = "none";
+            errorMessage.innerText = "Please upload a file or paste code.";
+            errorMessage.style.display = "block";
+            return;
+        }
+
+        formData.append("preset", preset);
+
+        try {
+            const response = await fetch("/api/obfuscate", {
+                method: "POST",
+                body: formData
+            });
+            const data = await response.json();
+
+            loadingSection.style.display = "none";
+
+            if (data.success) {
+                obfuscatedCode = data.result;
+                codeOutput.textContent = obfuscatedCode;
+                resultSection.style.display = "block";
+            } else {
+                errorMessage.innerText = data.error || "Obfuscation failed.";
+                errorMessage.style.display = "block";
+            }
+        } catch (err) {
+            loadingSection.style.display = "none";
+            errorMessage.innerText = "Server error: " + err.message;
+            errorMessage.style.display = "block";
+        }
+    });
+
+    downloadBtn.addEventListener("click", () => {
+        const blob = new Blob([obfuscatedCode], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "obfuscated.lua";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+</script>
+</body>
+</html>" 
