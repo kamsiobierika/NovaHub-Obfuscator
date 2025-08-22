@@ -1,0 +1,13 @@
+# render.yaml
+services:
+  - type: web
+    name: lua-obfuscator
+    env: node
+    plan: free
+    buildCommand: |
+      npm install
+    startCommand: |
+      node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
